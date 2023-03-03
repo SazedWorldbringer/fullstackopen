@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant browser
     participant server
@@ -21,3 +22,4 @@ sequenceDiagram
     deactivate server
 
     Note right of browser: The browser renders the entire application along with the newly added note
+```
