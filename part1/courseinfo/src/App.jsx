@@ -1,22 +1,6 @@
-const Header = ({ course }) => (
-  <h1>{course}</h1>
-)
-
-const Total = ({ exercises }) => (
-  <p>Number of exercises {exercises.reduce((prev, curr) => prev + curr, 0)}</p>
-)
-
-const Part = ({ part, exercise }) => (
-  <p>{part} {exercise}</p>
-)
-
-const Content = ({ parts, exercises }) => (
-  <>
-    <Part part={parts[0]} exercise={exercises[0]} />
-    <Part part={parts[1]} exercise={exercises[1]} />
-    <Part part={parts[2]} exercise={exercises[2]} />
-  </>
-)
+import Header from "./components/Header"
+import Content from "./components/Content"
+import Total from "./components/Total"
 
 const App = () => {
   const course = "Half Stack application development"
