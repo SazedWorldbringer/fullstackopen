@@ -28,6 +28,8 @@ function App() {
     { name: "bad", value: bad, id: nanoid() },
   ]
 
+  const total = good + bad + neutral
+
   return (
     <div>
       <Header text="give feedback" />
@@ -41,6 +43,9 @@ function App() {
       <Header text="statistics" />
 
       <FeedbackList options={options} />
+      <div>all {total}</div>
+      <div>average {(good - bad) / total}</div>
+      <div>positive {(good / (total)) * 100} %</div>
     </div>
   )
 }
