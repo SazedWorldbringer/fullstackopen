@@ -1,9 +1,12 @@
-const Statistics = ({ total, good, bad }) => (
-  <div>
-    <div>all {total}</div>
-    <div>average {(good - bad) / total}</div>
-    <div>positive {(good / (total)) * 100} %</div>
-  </div>
+import StatisticLine from "./StatisticLine"
+
+const Statistics = ({ stats }) => (
+  <>
+    {stats.map((stat) =>
+      <StatisticLine text={stat.name} value={stat.value} key={stat.id} />)
+    }
+  </>
 )
+
 
 export default Statistics

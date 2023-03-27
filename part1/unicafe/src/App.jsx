@@ -1,6 +1,5 @@
 import { useState } from "react"
 import Button from "./Button"
-import FeedbackList from "./FeedbackList"
 import Header from "./Header"
 
 import { nanoid } from "nanoid"
@@ -23,13 +22,16 @@ function App() {
     setBad(bad + 1)
   }
 
-  const options = [
+  const total = good + bad + neutral
+
+  const stats = [
     { name: "good", value: good, id: nanoid() },
     { name: "neutral", value: neutral, id: nanoid() },
     { name: "bad", value: bad, id: nanoid() },
+    { name: "all", value: total, id: nanoid() },
+    { name: "average", value: (good - bad) / total, id: nanoid() },
+    { name: "positive", value: `${(good / total) * 100}%`, id: nanoid() },
   ]
-
-  const total = good + bad + neutral
 
   return (
     <div>
@@ -44,10 +46,9 @@ function App() {
       <Header text="statistics" />
 
       {good || neutral || bad ? (
-        <>
-          <FeedbackList options={options} />
-          <Statistics total={total} good={good} bad={bad} />
-        </>
+        <div>
+          <Statistics stats={stats}/>
+        </div>
       ) : (
         <p>No feedback given.</p>
       )}
