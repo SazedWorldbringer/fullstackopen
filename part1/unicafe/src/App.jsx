@@ -4,6 +4,7 @@ import FeedbackList from "./FeedbackList"
 import Header from "./Header"
 
 import { nanoid } from "nanoid"
+import Statistics from "./Statistics"
 
 function App() {
   const [good, setGood] = useState(0)
@@ -43,9 +44,7 @@ function App() {
       <Header text="statistics" />
 
       <FeedbackList options={options} />
-      <div>all {total}</div>
-      <div>average {(good - bad) / total}</div>
-      <div>positive {(good / (total)) * 100} %</div>
+      <Statistics total={total} good={good} bad={bad} />
     </div>
   )
 }
