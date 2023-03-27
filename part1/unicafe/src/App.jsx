@@ -43,8 +43,14 @@ function App() {
 
       <Header text="statistics" />
 
-      <FeedbackList options={options} />
-      <Statistics total={total} good={good} bad={bad} />
+      {good || neutral || bad ? (
+        <>
+          <FeedbackList options={options} />
+          <Statistics total={total} good={good} bad={bad} />
+        </>
+      ) : (
+        <p>No feedback given.</p>
+      )}
     </div>
   )
 }
