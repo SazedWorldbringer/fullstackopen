@@ -33,12 +33,21 @@ function App() {
     setSelected(randomIndex)
   }
 
+  let maxIndex = Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? a : b)
+
   return (
     <div>
-      <div>{anecdotes[selected]} <br /> has {votes[selected]} votes</div>
-      <button onClick={handleVote}>vote</button>
-      <button onClick={handleClick}>next anecdote</button>
-    </div >
+      <div>
+        <h1>Anecdote of the day</h1>
+        <div>{anecdotes[selected]} <br /> has {votes[selected]} votes</div>
+        <button onClick={handleVote}>vote</button>
+        <button onClick={handleClick}>next anecdote</button>
+      </div>
+      <div>
+        <h1>Anecdote with most votes</h1>
+        <div>{anecdotes[maxIndex]} <br /> has {votes[maxIndex]}</div>
+      </div>
+    </div>
   )
 }
 
