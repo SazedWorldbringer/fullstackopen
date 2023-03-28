@@ -13,18 +13,32 @@ function App() {
   ]
 
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(() => {
+    const obj = {}
+    for (let anecdote of anecdotes) {
+      obj[anecdotes.indexOf(anecdote)] = 0
+    }
+    return obj
+  })
+
+  const handleVote = () => {
+    setVotes({
+      selected: votes[selected]++,
+      ...votes,
+    })
+  }
 
   const handleClick = () => {
     const randomIndex = Math.floor(Math.random() * anecdotes.length)
     setSelected(randomIndex)
-    console.log(randomIndex, anecdotes[randomIndex])
   }
 
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
+      <div>{anecdotes[selected]} <br /> has {votes[selected]} votes</div>
+      <button onClick={handleVote}>vote</button>
       <button onClick={handleClick}>next anecdote</button>
-    </div>
+    </div >
   )
 }
 
