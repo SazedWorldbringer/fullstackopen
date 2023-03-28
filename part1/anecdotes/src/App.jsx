@@ -14,9 +14,16 @@ function App() {
 
   const [selected, setSelected] = useState(0);
 
+  const handleClick = () => {
+    const randomIndex = Math.floor(Math.random() * anecdotes.length)
+    setSelected(randomIndex)
+    console.log(randomIndex, anecdotes[randomIndex])
+  }
+
   return (
     <div>
-      {anecdotes[selected]}
+      <p>{anecdotes[selected]}</p>
+      <button onClick={handleClick}>next anecdote</button>
     </div>
   )
 }
