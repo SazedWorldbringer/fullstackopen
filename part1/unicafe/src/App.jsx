@@ -46,9 +46,9 @@ function App() {
       <Header text="statistics" />
 
       {good || neutral || bad ? (
-        <div>
-          <Statistics stats={stats}/>
-        </div>
+        <table>
+          <Statistics stats={stats} />
+        </table>
       ) : (
         <p>No feedback given.</p>
       )}
