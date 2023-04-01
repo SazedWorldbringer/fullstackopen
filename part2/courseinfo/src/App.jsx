@@ -16,7 +16,9 @@ const Content = ({ parts }) => {
 }
 
 const Course = ({ course }) => {
-  const sum = course.parts.map(part => part.exercises).reduce((prev, curr) => prev + curr, 0);
+  const sum = course.parts.map(part => part.exercises).reduce((prev, curr) => {
+    return prev + curr
+  }, 0);
 
   return (
     <>
