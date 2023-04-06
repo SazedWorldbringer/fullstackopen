@@ -11,12 +11,29 @@ function App() {
     setNewName(event.target.value);
   }
 
+  const containsObj = (obj, arr) => {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].name.toLowerCase() === obj.name.toLowerCase()) {
+        window.alert(`${obj.name} is already added to the phonebook`)
+        setNewName('')
+        return true;
+      }
+    }
+    return false
+  }
+
   const addName = (event) => {
     event.preventDefault();
+
+    const newPerson = { name: newName }
+
+    if (containsObj(newPerson, persons)) return;
+
     const updatedPersons = [
       ...persons,
-      { name: newName },
+      newPerson,
     ]
+
     setPersons(updatedPersons);
     setNewName('');
   }
@@ -34,7 +51,7 @@ function App() {
       </form>
       <h2>Numbers</h2>
       <div>
-        {persons.map(person => <div>{person.name}</div>)}
+        {persons.map((person, idx) => <div key={idx}>{person.name}</div>)}
       </div>
     </div>
   )
