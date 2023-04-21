@@ -47,13 +47,18 @@ function App() {
 
     if (containsObj(newPerson, persons)) return;
 
+    axios
+      .post('http://localhost:3001/persons', newPerson)
+      .then(response => {
+        setPersons(persons.concat(response.data))
+        setFilteredPersons(filteredPersons.concat(response.data))
+      })
+
     const updatedPersons = [
       ...persons,
       newPerson,
     ]
 
-    setPersons(updatedPersons);
-    setFilteredPersons(updatedPersons)
     setNewName('');
     setNewNumber('');
   }
