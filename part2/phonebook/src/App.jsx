@@ -58,6 +58,17 @@ function App() {
     setNewNumber('');
   }
 
+  const deleteName = (id) => {
+    personService
+      .deleteName(id)
+      .then(res => {
+        console.log(res)
+      })
+
+    setPersons(persons.filter(person => person.id !== id))
+    setFilteredPersons(persons.filter(person => person.id !== id))
+  }
+
   const handleSearchChange = (event) => {
     const filtered = persons.filter(person => person.name.toLowerCase().includes(event.target.value.toLowerCase()));
     setFilteredPersons(filtered);
@@ -73,7 +84,7 @@ function App() {
       <PersonForm handleSubmit={addName} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} newName={newName} newNumber={newNumber} />
 
       <h3>Numbers</h3>
-      <Persons persons={filteredPersons} />
+      <Persons handleDelete={deleteName} persons={filteredPersons} />
     </div>
   )
 }
