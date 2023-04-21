@@ -13,9 +13,9 @@ function App() {
   useEffect(() => {
     personService
       .getAll()
-      .then(res => {
-        setPersons(res.data);
-        setFilteredPersons(res.data);
+      .then(initialPersons => {
+        setPersons(initialPersons);
+        setFilteredPersons(initialPersons);
       })
   }, [])
 
@@ -49,9 +49,9 @@ function App() {
 
     personService
       .create(newPerson)
-      .then(res => {
-        setPersons(persons.concat(res.data));
-        setFilteredPersons(filteredPersons.concat(res.data));
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson));
+        setFilteredPersons(filteredPersons.concat(returnedPerson));
       })
 
     setNewName('');
