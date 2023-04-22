@@ -59,11 +59,9 @@ function App() {
   }
 
   const deleteName = (id) => {
-    personService
-      .deleteName(id)
-      .then(res => {
-        console.log(res)
-      })
+    if (!window.confirm(`Delete ${persons.find(person => person.id === id).name}?`)) return;
+
+    personService.deleteName(id)
 
     setPersons(persons.filter(person => person.id !== id))
     setFilteredPersons(persons.filter(person => person.id !== id))
