@@ -43,6 +43,11 @@ function App() {
   const addName = (event) => {
     event.preventDefault();
 
+    if(newName === '' || newNumber === '') {
+      window.alert("Name and number cannot be empty.")
+      return
+    }
+
     const newPerson = { name: newName, number: newNumber, id: persons.length + 1 }
 
     if (containsObj(newPerson, persons)) return;
