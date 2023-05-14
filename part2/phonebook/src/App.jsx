@@ -9,6 +9,7 @@ function App() {
   const [filteredPersons, setFilteredPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [notification, setNotification] = useState('')
 
   useEffect(() => {
     personService
@@ -72,9 +73,25 @@ function App() {
         setFilteredPersons(filteredPersons.concat(returnedPerson));
       })
 
+    setNotification(`Added ${newName}`)
+
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+
     // clear input values
     setNewName('');
     setNewNumber('');
+  }
+
+  const Notification = ({ message }) => {
+    if (message == null) null
+
+    return (
+      <div className='notification' style={message == null ? { display: 'none' } : { display: 'block' }} >
+        {message}
+      </div>
+    )
   }
 
   const deleteName = (id) => {
@@ -117,6 +134,8 @@ function App() {
   return (
     <div>
       <h1>Phonebook</h1>
+
+      <Notification message={notification} />
 
       <Filter handleChange={handleSearchChange} />
 
