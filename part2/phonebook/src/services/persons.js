@@ -16,4 +16,9 @@ const deleteName = async id => {
 	return request.then(res => res.data);
 }
 
-export default { getAll, create, deleteName }
+const update = async (id, newObj) => {
+	const request = axios.put(`${baseUrl}/${id}`, newObj);
+	return request.then(res => res.data);
+}
+
+export default { getAll, create, deleteName, update }
