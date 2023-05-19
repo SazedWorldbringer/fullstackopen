@@ -26,10 +26,14 @@ function App() {
     setFilteredCountries(fc)
   }
 
+  const handleClick = (c) => {
+    setFilteredCountries(filteredCountries.filter(country => country.name == c.name))
+  }
+
   return (
     <div>
       <Filter handleChange={handleSearchChange} />
-      <MainContent countries={filteredCountries} />
+      <MainContent countries={filteredCountries} handleClick={handleClick} />
     </div>
   )
 }
