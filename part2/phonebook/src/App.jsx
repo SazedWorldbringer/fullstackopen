@@ -18,7 +18,7 @@ function App() {
         setPersons(initialPersons);
         setFilteredPersons(initialPersons);
       })
-  }, [persons])
+  }, [])
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -59,7 +59,7 @@ function App() {
       return
     }
 
-    const newPerson = { id: persons.length + 1, name: newName, number: newNumber }
+    const newPerson = { name: newName, number: newNumber }
 
     // check if the person is already in the persons array + update the number
     if (containsPerson(persons, newPerson)) return;
