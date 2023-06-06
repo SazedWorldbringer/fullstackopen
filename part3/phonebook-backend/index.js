@@ -2,13 +2,20 @@ const express = require("express")
 const morgan = require("morgan")
 const cors = require("cors")
 
-morgan.token('data', function(req, res) { return JSON.stringify(req.body) })
-
 const app = express()
 
+// parse incoming json data
 app.use(express.json())
+
+// log request information to the console
+morgan.token('data', function(req, res) { return JSON.stringify(req.body) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
+
+// allow cross origin requests 
 app.use(cors())
+
+// render frontend
+app.use(express.static("dist"))
 
 let persons = [
 	{
@@ -32,11 +39,6 @@ let persons = [
 		"number": "39-23-6423122"
 	}
 ]
-
-// root
-app.get('/', (req, res) => {
-	res.send("<h1>Hello, world!</h1>")
-})
 
 // Get all phonebook entries
 app.get('/api/persons', (req, res) => {
