@@ -11,7 +11,7 @@ const create = async newObj => {
 	return request.then(res => res.data);
 }
 
-const deleteName = async id => {
+const deleteEntry = async id => {
 	const request = axios.delete(`${baseUrl}/${id}`)
 	return request.then(res => res.data);
 }
@@ -21,4 +21,4 @@ const update = async (id, newObj) => {
 	return request.then(res => res.data);
 }
 
-export default { getAll, create, deleteName, update }
+export default { getAll, create, deleteEntry, update }

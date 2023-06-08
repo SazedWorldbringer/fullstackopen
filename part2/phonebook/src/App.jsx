@@ -50,7 +50,7 @@ function App() {
     return false
   }
 
-  const addName = (event) => {
+  const addPhonebookEntry = (event) => {
     event.preventDefault();
 
     // check if the input is valid
@@ -94,11 +94,11 @@ function App() {
     )
   }
 
-  const deleteName = (id) => {
+  const deletePhonebookEntry = (id) => {
     if (!window.confirm(`Delete ${people.find(person => person.id === id).name}?`)) return;
 
     // delete person with given id
-    personService.deleteName(id)
+    personService.deleteEntry(id)
 
     // update people array
     setPeople(people.filter(person => person.id !== id))
@@ -140,10 +140,10 @@ function App() {
       <Filter handleChange={handleSearchChange} />
 
       <h3>Add a new number</h3>
-      <PersonForm handleSubmit={addName} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} newName={newName} newNumber={newNumber} />
+      <PersonForm handleSubmit={addPhonebookEntry} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} newName={newName} newNumber={newNumber} />
 
       <h3>Numbers</h3>
-      <People handleDelete={deleteName} people={filteredPeople} />
+      <People handleDelete={deletePhonebookEntry} people={filteredPeople} />
     </div>
   )
 }
