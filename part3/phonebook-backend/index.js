@@ -74,10 +74,13 @@ app.get('/api/people/:id', (req, res) => {
 
 // Delete phonebook entry
 app.delete('/api/people/:id', (req, res) => {
-	const id = Number(req.params.id)
-	persons = persons.filter(person => person.id !== id)
-
-	res.status(204).end()
+	const id = req.params.id
+	// find the object by its id in parameters and remove it from the database
+	Person.findByIdAndRemove(id)
+		.then(result => {
+			res.status(204).end()
+		})
+		.catch(error => console.log(error))
 })
 
 // Add entry to the phonebook
