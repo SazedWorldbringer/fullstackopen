@@ -43,7 +43,7 @@ let persons = [
 ]
 
 // Get all phonebook entries
-app.get('/api/persons', (req, res) => {
+app.get('/api/people', (req, res) => {
 	Person.find({}).then(result => {
 		res.json(result)
 	})
@@ -61,7 +61,7 @@ app.get('/info', (req, res) => {
 })
 
 // Get indidual phonebook entry
-app.get('/api/persons/:id', (req, res) => {
+app.get('/api/people/:id', (req, res) => {
 	const id = Number(req.params.id)
 	const person = persons.find(person => person.id === id)
 
@@ -73,7 +73,7 @@ app.get('/api/persons/:id', (req, res) => {
 })
 
 // Delete phonebook entry
-app.delete('/api/persons/:id', (req, res) => {
+app.delete('/api/people/:id', (req, res) => {
 	const id = Number(req.params.id)
 	persons = persons.filter(person => person.id !== id)
 
@@ -81,7 +81,7 @@ app.delete('/api/persons/:id', (req, res) => {
 })
 
 // Add entry to the phonebook
-app.post('/api/persons', (req, res) => {
+app.post('/api/people', (req, res) => {
 	const body = req.body
 
 	if (!body.name || !body.number) {
