@@ -90,22 +90,14 @@ app.post('/api/persons', (req, res) => {
 		})
 	}
 
-	const nameExists = persons.map(person => person.name.toLowerCase()).includes(body.name.toLowerCase())
+	const person = new Person({
+		number: body.number,
+		name: body.name,
+	})
 
-	if (nameExists) {
-		return res.status(400).json({
-			error: "name must be unique"
-		})
-	}
-
-	const person = {
-		...body,
-		id: Math.floor(Math.random() * 100000)
-	}
-
-	persons = persons.concat(person)
-
-	res.json(person)
+	person.save().then(savedPerson => {
+		res.json(savedPerson)
+	})
 })
 
 const PORT = process.env.PORT
