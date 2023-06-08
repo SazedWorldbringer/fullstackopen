@@ -60,14 +60,17 @@ app.get('/api/people', (req, res) => {
 })
 
 // Info page
-app.get('/info', (req, res) => {
-	const entries = persons.length
+app.get('/info', (req, res, next) => {
 	const time = new Date()[Symbol.toPrimitive]("string")
 
-	res.send(`
-		<p>Phonebook has info for ${entries} people<p>
-		<p>${time}</p>
-	`)
+	Person.countDocuments({})
+		.then(count => {
+			res.send(`
+				<p>Phonebook has info for ${count} people<p>
+				<p>${time}</p>
+			`)
+		})
+		.catch(error => next(error))
 })
 
 // Get indidual phonebook entry
