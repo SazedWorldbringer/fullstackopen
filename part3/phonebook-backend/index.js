@@ -19,6 +19,16 @@ app.use(express.json())
 morgan.token('data', function(req, res) { return JSON.stringify(req.body) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
+const errorHandler = (error, req, res, next) => {
+	console.error(error.message)
+
+	if (error.name === "CastError") {
+		return res.status(400).send({ error: 'malformatted id' })
+	}
+
+	next(error)
+}
+
 let persons = [
 	{
 		"id": 1,
@@ -73,15 +83,17 @@ app.get('/api/people/:id', (req, res) => {
 })
 
 // Delete phonebook entry
-app.delete('/api/people/:id', (req, res) => {
+app.delete('/api/people/:id', (req, res, next) => {
 	const id = req.params.id
 	// find the object by its id in parameters and remove it from the database
 	Person.findByIdAndRemove(id)
 		.then(result => {
 			res.status(204).end()
 		})
-		.catch(error => console.log(error))
+		.catch(error => next(error))
 })
+
+app.use(errorHandler)
 
 // Add entry to the phonebook
 app.post('/api/people', (req, res) => {
