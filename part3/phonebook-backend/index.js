@@ -6,18 +6,18 @@ const Person = require("./models/person")
 
 const app = express()
 
+// render frontend
+app.use(express.static("dist"))
+
+// allow cross origin requests 
+app.use(cors())
+
 // parse incoming json data
 app.use(express.json())
 
 // log request information to the console
 morgan.token('data', function(req, res) { return JSON.stringify(req.body) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
-
-// allow cross origin requests 
-app.use(cors())
-
-// render frontend
-app.use(express.static("dist"))
 
 let persons = [
 	{
