@@ -71,15 +71,14 @@ app.get('/info', (req, res) => {
 })
 
 // Get indidual phonebook entry
-app.get('/api/people/:id', (req, res) => {
-	const id = Number(req.params.id)
-	const person = persons.find(person => person.id === id)
+app.get('/api/people/:id', (req, res, next) => {
+	const id = req.params.id
 
-	if (person) {
-		res.json(person)
-	} else {
-		res.status(404).end()
-	}
+	Person.findById(id)
+		.then(person => {
+			res.json(person)
+		})
+		.catch(error => next(error))
 })
 
 // Delete phonebook entry
