@@ -57,10 +57,10 @@ app.get('/api/people/:id', (req, res, next) => {
 	const id = req.params.id
 
 	Person.findById(id)
-		.then(person => {
+		.then((person) => {
 			res.json(person)
 		})
-		.catch(error => next(error))
+		.catch((error) => next(error))
 })
 
 // Delete phonebook entry
