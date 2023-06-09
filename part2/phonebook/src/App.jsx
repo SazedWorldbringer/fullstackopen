@@ -78,7 +78,7 @@ function App() {
       .catch(error => {
         setNotification({
           type: 'error',
-          message: error.message
+          message: error.response.data.error
         })
       })
 
