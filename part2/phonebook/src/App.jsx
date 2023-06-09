@@ -9,7 +9,10 @@ function App() {
   const [filteredPeople, setFilteredPeople] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState({
+    type: '',
+    message: ''
+  })
 
   useEffect(() => {
     personService
@@ -72,11 +75,23 @@ function App() {
         setPeople(people.concat(returnedPerson));
         setFilteredPeople(filteredPeople.concat(returnedPerson));
       })
+      .catch(error => {
+        setNotification({
+          type: 'error',
+          message: error.message
+        })
+      })
 
-    setNotification(`Added ${newName}`)
+    setNotification({
+      type: 'success',
+      message: `Added ${newName}`
+    })
 
     setTimeout(() => {
-      setNotification(null)
+      setNotification({
+        type: '',
+        message: ''
+      })
     }, 5000)
 
     // clear input values
@@ -84,11 +99,11 @@ function App() {
     setNewNumber('');
   }
 
-  const Notification = ({ message }) => {
+  const Notification = ({ type, message }) => {
     if (message == null) null
 
     return (
-      <div className='notification' style={message == null ? { display: 'none' } : { display: 'block' }} >
+      <div className={`notification ${type}`} style={message == null ? { display: 'none' } : { display: 'block' }} >
         {message}
       </div>
     )
@@ -135,7 +150,9 @@ function App() {
     <div>
       <h1>Phonebook</h1>
 
-      <Notification message={notification} />
+      {notification.message !== '' &&
+        <Notification message={notification.message} type={notification.type} />
+      }
 
       <Filter handleChange={handleSearchChange} />
 
