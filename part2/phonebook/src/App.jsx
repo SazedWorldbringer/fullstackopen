@@ -138,6 +138,18 @@ function App() {
         })
       })
 
+    setTimeout(() => {
+      setNotification({
+        type: '',
+        message: ''
+      })
+    }, 5000)
+
+    setNotification({
+      type: 'success',
+      message: `Updated ${obj.name}`
+    })
+
     // clear input values
     setNewName('')
     setNewNumber('')
