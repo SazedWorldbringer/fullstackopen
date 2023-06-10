@@ -131,6 +131,12 @@ function App() {
         setPeople(people.filter(person => person.id !== id ? person : returnedPerson))
         setFilteredPeople(people.filter(person => person.id !== id ? person : returnedPerson))
       })
+      .catch(error => {
+        setNotification({
+          type: 'error',
+          message: error.response.data.error
+        })
+      })
 
     // clear input values
     setNewName('')
