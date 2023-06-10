@@ -1,30 +1,31 @@
 require('dotenv').config()
-const express = require("express")
-const morgan = require("morgan")
-const cors = require("cors")
-const Person = require("./models/person")
+const express = require('express')
+const morgan = require('morgan')
+const cors = require('cors')
+const Person = require('./models/person')
 
 const app = express()
 
 // render frontend
-app.use(express.static("dist"))
+app.use(express.static('dist'))
 
-// allow cross origin requests 
+// allow cross origin requests
 app.use(cors())
 
 // parse incoming json data
 app.use(express.json())
 
 // log request information to the console
+// eslint-disable-next-line no-unused-vars
 morgan.token('data', function(req, res) { return JSON.stringify(req.body) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
 const errorHandler = (error, req, res, next) => {
 	console.error(error.message)
 
-	if (error.name === "CastError") {
+	if (error.name === 'CastError') {
 		return res.status(400).send({ error: 'malformatted id' })
-	} else if (error.name === "ValidationError") {
+	} else if (error.name === 'ValidationError') {
 		return res.status(400).json({ error: error.message })
 	}
 
@@ -40,7 +41,7 @@ app.get('/api/people', (req, res) => {
 
 // Info page
 app.get('/info', (req, res, next) => {
-	const time = new Date()[Symbol.toPrimitive]("string")
+	const time = new Date()[Symbol.toPrimitive]('string')
 
 	Person.countDocuments({})
 		.then(count => {
@@ -68,6 +69,7 @@ app.delete('/api/people/:id', (req, res, next) => {
 	const id = req.params.id
 	// find the object by its id in parameters and remove it from the database
 	Person.findByIdAndRemove(id)
+		// eslint-disable-next-line no-unused-vars
 		.then(result => {
 			res.status(204).end()
 		})
@@ -80,7 +82,7 @@ app.post('/api/people', (req, res, next) => {
 
 	if (!body.name || !body.number) {
 		return res.status(400).json({
-			error: "Name and number are required"
+			error: 'Name and number are required'
 		})
 	}
 
