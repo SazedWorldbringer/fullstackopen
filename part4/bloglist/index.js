@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 require('dotenv').config()
 const mongoose = require('mongoose')
-const Blog = require('./models/blog')
+const blogsRouter = require('./controllers/blogslist')
 
 const app = express()
 
@@ -12,23 +12,7 @@ mongoose.connect(mongoUrl)
 app.use(cors())
 app.use(express.json())
 
-app.get('/api/blogs', (request, response) => {
-  Blog
-    .find({})
-    .then(blogs => {
-      response.json(blogs)
-    })
-})
-
-app.post('/api/blogs', (request, response) => {
-  const blog = new Blog(request.body)
-
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
-})
+app.use('/api/blogs', blogsRouter)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
