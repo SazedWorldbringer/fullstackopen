@@ -15,8 +15,13 @@ const totalLikes = (blogs) => {
   return totalLikes
 }
 
+const favoriteBlog = (blogs) => {
+  // return null if no blogs are passed
+  if(blogs.length === 0) return null
+}
 
 module.exports = {
   dummy,
-  totalLikes
+  totalLikes,
+  favoriteBlog
 }
