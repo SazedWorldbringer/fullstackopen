@@ -87,3 +87,12 @@ describe('total likes', () => {
     expect(result).toBe(36)
   })
 })
+
+describe('most likes', () => {
+  const listWithNoBlogs = []
+
+  test('of empty list is null', () => {
+    const result = listHelper.favoriteBlog(listWithNoBlogs)
+    expect(result).toBe(null)
+  })
+})
