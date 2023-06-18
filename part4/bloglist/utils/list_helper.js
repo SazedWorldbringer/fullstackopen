@@ -17,7 +17,19 @@ const totalLikes = (blogs) => {
 
 const favoriteBlog = (blogs) => {
   // return null if no blogs are passed
-  if(blogs.length === 0) return null
+  if (blogs.length === 0) return null
+  // return same blog obj if one blog is passed
+  if (blogs.length === 1) {
+    const blog = blogs[0]
+
+    const favoriteBlog = {
+      title: blog.title,
+      author: blog.author,
+      likes: blog.likes
+    }
+
+    return favoriteBlog
+  }
 }
 
 module.exports = {
