@@ -107,7 +107,7 @@ describe('most likes', () => {
     }
   ]
 
-  const expectedResult = {
+  const expectedResultForOneBlog = {
     title: 'Go To Statement Considered Harmful',
     author: 'Edsger W. Dijkstra',
     likes: 5
@@ -115,6 +115,6 @@ describe('most likes', () => {
 
   test('when list has only one blog, return the same blog object', () => {
     const result = listHelper.favoriteBlog(listWithOneBlog)
-    expect(result).toEqual(expectedResult)
+    expect(result).toEqual(expectedResultForOneBlog)
   })
 })
