@@ -30,6 +30,19 @@ const favoriteBlog = (blogs) => {
 
     return favoriteBlog
   }
+
+  // find most liked blog
+  const favoriteBlog = blogs.reduce((prev, curr) => {
+    return (curr.likes > prev.likes) ? curr : prev
+  })
+
+  const result = {
+    title: favoriteBlog.title,
+    author: favoriteBlog.author,
+    likes: favoriteBlog.likes
+  }
+
+  return result
 }
 
 module.exports = {
