@@ -31,7 +31,7 @@ const favoriteBlog = (blogs) => {
     return favoriteBlog
   }
 
-  // find most liked blog
+  // find most liked blog and return its info
   const favoriteBlog = blogs.reduce((prev, curr) => {
     return (curr.likes > prev.likes) ? curr : prev
   })
