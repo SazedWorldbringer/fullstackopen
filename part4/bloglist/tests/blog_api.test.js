@@ -35,6 +35,29 @@ describe('bloglist', () => {
     })
   })
 
+  test('blogs are saved to the bloglist', async () => {
+    const newBlog = {
+      title: 'Digging my way out of tutorial hell',
+      author: 'Zuzana K',
+      url: 'https://www.zuzana-k.com/blog/digging-my-way-out-of-tutorial-hell/',
+      likes: 1000,
+    };
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+    const contents = blogsAtEnd.map((blog) => blog.title);
+    expect(contents).toContain(
+      'Digging my way out of tutorial hell'
+    );
+  })
+
   afterAll(async () => {
     await mongoose.connection.close()
   })
