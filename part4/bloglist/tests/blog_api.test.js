@@ -61,6 +61,21 @@ describe('bloglist', () => {
     );
   })
 
+  test('blogs have an initial likes property of 0', async () => {
+    const blogWithoutLikes = {
+      title: 'Attention is your scarcest resource',
+      author: 'Ben',
+      url: 'https://www.benkuhn.net/attention/'
+    };
+
+    const response = await api
+      .post('/api/blogs')
+      .send(blogWithoutLikes)
+
+    const returnedBlog = response.body;
+    expect(returnedBlog.likes).toBe(0);
+  })
+
   afterAll(async () => {
     await mongoose.connection.close()
   })
