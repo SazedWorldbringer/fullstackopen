@@ -10,6 +10,7 @@ blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
   const blog = new Blog({
+    // instantiate likes at 0 if not provided
     likes: body.likes || 0,
     ...body
   })

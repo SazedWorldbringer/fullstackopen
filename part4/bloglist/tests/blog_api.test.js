@@ -68,10 +68,12 @@ describe('bloglist', () => {
       url: 'https://www.benkuhn.net/attention/'
     };
 
+    // save blog to the database
     const response = await api
       .post('/api/blogs')
       .send(blogWithoutLikes)
 
+    // check if likes property has value 0
     const returnedBlog = response.body;
     expect(returnedBlog.likes).toBe(0);
   })
