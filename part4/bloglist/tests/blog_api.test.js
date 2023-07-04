@@ -43,15 +43,18 @@ describe('bloglist', () => {
       likes: 1000,
     };
 
+    // test the backend responds correctly
     await api
       .post('/api/blogs')
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/);
 
+    // test if the length of blogs in db is one more than that of initial blogposts
     const blogsAtEnd = await helper.blogsInDb();
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
 
+    // test if contents of the new blog are saved correctly
     const contents = blogsAtEnd.map((blog) => blog.title);
     expect(contents).toContain(
       'Digging my way out of tutorial hell'
