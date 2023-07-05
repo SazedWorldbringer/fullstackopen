@@ -78,6 +78,18 @@ describe('bloglist', () => {
     expect(returnedBlog.likes).toBe(0);
   })
 
+  test('returns 400 Bad Request status if title or url are missing', async () => {
+    const blogWithoutTitleAndUrl = {
+      author: 'Paco Coursey',
+      likes: 500,
+    };
+
+    await api
+      .post('/api/blogs')
+      .send(blogWithoutTitleAndUrl)
+      .expect(400)
+  }, 100000)
+  
   afterAll(async () => {
     await mongoose.connection.close()
   })
