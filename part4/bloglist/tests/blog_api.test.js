@@ -7,12 +7,12 @@ const api = supertest(app);
 const Blog = require('../models/blog');
 const helper = require('./test_helper');
 
-describe('bloglist', () => {
-  beforeEach(async () => {
-    await Blog.deleteMany({});
-    await Blog.insertMany(helper.initialBlogs)
-  }, 100000)
+beforeEach(async () => {
+  await Blog.deleteMany({});
+  await Blog.insertMany(helper.initialBlogs)
+}, 100000)
 
+describe('when there are initially some blogs saved', () => {
   test('blogs are returned as json', async () => {
     await api
       .get('/api/blogs')
@@ -34,7 +34,9 @@ describe('bloglist', () => {
       expect(blog.id).toBeDefined()
     })
   })
+})
 
+describe('adding new blogs', () => {
   test('blogs are saved to the bloglist', async () => {
     const newBlog = {
       title: 'Digging my way out of tutorial hell',
@@ -89,8 +91,8 @@ describe('bloglist', () => {
       .send(blogWithoutTitleAndUrl)
       .expect(400)
   }, 100000)
-  
-  afterAll(async () => {
-    await mongoose.connection.close()
-  })
+})
+
+afterAll(async () => {
+  await mongoose.connection.close()
 })
