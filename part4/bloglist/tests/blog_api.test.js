@@ -104,6 +104,22 @@ describe('deletion of a blog', () => {
   })
 })
 
+describe('update a blogpost', () => {
+  test('successfully updates the likes of a pre-existing blogpost', async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const updatedBlog = {
+      ...blogsAtStart[0],
+      likes: 5,
+    };
+
+    await api
+      .put(`/api/blogs/${updatedBlog.id}`)
+      .send(updatedBlog)
+      .expect(200)
+      .expect(updatedBlog)
+  })
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
