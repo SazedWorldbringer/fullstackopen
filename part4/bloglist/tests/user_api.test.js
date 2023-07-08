@@ -26,3 +26,30 @@ describe('when there are some users saved in the database', () => {
     expect(response.body).toHaveLength(helper.initialUsers.length);
   })
 })
+
+describe('adding new users', () => {
+  test('user is added', async () => {
+    const newUser = {
+      username: 'survivor',
+      name: 'Kelsier',
+      password: 'downwiththelordruler',
+    };
+
+    // save newUser to the database
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    // test if the length of users in db is one more than that of initial users
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd.length).toEqual(helper.initialUsers.length + 1);
+
+    // test if the correct content is saved
+    const usernames = usersAtEnd.map(user => user.username);
+    expect(usernames).toContain(
+      'survivor'
+    );
+  })
+})
