@@ -10,6 +10,17 @@ usersRouter.get('/', async (request, response) => {
 
 usersRouter.post('/', async (request, response) => {
   const { username, name, password } = request.body;
+  console.log(username, name, password);
+
+  if (!username || !password) {
+    response.status(400).json('Username and password are required');
+    return;
+  }
+
+  if (username.length < 3 || password.length < 3) {
+    response.status(401).json('Username and password must be at least 3 characters long');
+    return;
+  }
 
   // hash the password using bcrypt
   const saltRounds = 10;
