@@ -29,6 +29,8 @@ describe('when there are some users saved in the database', () => {
 
 describe('adding new users', () => {
   test('user is added', async () => {
+    const password = 'downwiththelordruler';
+
     const newUser = {
       username: 'survivor',
       name: 'Kelsier',
@@ -51,5 +53,31 @@ describe('adding new users', () => {
     expect(usernames).toContain(
       'survivor'
     );
+  })
+
+  test('fails with status code of 400 if invalid data is passed', async () => {
+    const userWithoutUsernameAndPassword = {
+      name: 'Perrin Aybara',
+    };
+
+    // send user to the database, see if the api returns status 400
+    await api
+      .post('/api/users')
+      .send(userWithoutUsernameAndPassword)
+      .expect(400)
+  })
+
+  test('fails with status code of 401 if username or password are less than 3 chars long', async () => {
+    const userWithInvalidUsernameAndPassword = {
+      name: 'Matrim Cauthon',
+      username: 'rh',
+      password: 'mc'
+    }
+
+    // send user to the databse, see if the api returns status code of 401
+    await api
+      .post('/api/users')
+      .send(userWithInvalidUsernameAndPassword)
+      .expect(401)
   })
 })
