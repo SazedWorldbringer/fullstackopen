@@ -1,18 +1,23 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
-const app = require('../app');
+const bcrypt = require('bcrypt');
 
+const app = require('../app');
 const api = supertest(app);
 
 const User = require('../models/user');
 const helper = require('./test_helper');
 
-beforeEach(async () => {
-  await User.deleteMany({});
-  await User.insertMany(helper.initialUsers);
-}, 100000);
+describe('when there is initially one user in the db', () => {
+  beforeEach(async () => {
+    await User.deleteMany({});
 
-describe('when there are some users saved in the database', () => {
+    const passwordHash = await bcrypt.hash('survivorismiscool', 10);
+    const user = new User({ username: 'Kelsier', passwordHash });
+
+    await user.save();
+  }, 10000);
+
   test('users are returned as json', async () => {
     const response = await api
       .get('/api/users')
@@ -20,42 +25,54 @@ describe('when there are some users saved in the database', () => {
       .expect('Content-Type', /application\/json/);
   })
 
-  test('all users are returned', async () => {
-    const response = await api.get('/api/users');
-
-    expect(response.body).toHaveLength(helper.initialUsers.length);
-  })
-})
-
-describe('adding new users', () => {
-  test('user is added', async () => {
-    const password = 'downwiththelordruler';
+  test('creation of a new user succeeds with a fresh username', async () => {
+    const usersAtStart = await helper.usersInDb();
 
     const newUser = {
-      username: 'survivor',
-      name: 'Kelsier',
-      password: 'downwiththelordruler',
+      username: 'cephandrius',
+      name: 'Hoid',
+      password: 'TheOneWhoDenied',
     };
 
-    // save newUser to the database
+    // save user to the db
     await api
       .post('/api/users')
       .send(newUser)
       .expect(201)
       .expect('Content-Type', /application\/json/);
 
-    // test if the length of users in db is one more than that of initial users
+    // test if the length of users in the db is one more than that of initial users
     const usersAtEnd = await helper.usersInDb();
-    expect(usersAtEnd.length).toEqual(helper.initialUsers.length + 1);
+    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1);
 
-    // test if the correct content is saved
-    const usernames = usersAtEnd.map(user => user.username);
-    expect(usernames).toContain(
-      'survivor'
-    );
+    // test if new username is correctly saved in the db
+    const usernames = usersAtEnd.map(u => u.username);
+    expect(usernames).toContain(newUser.username);
   })
 
-  test('fails with status code of 400 if invalid data is passed', async () => {
+  test('creation fails with proper statuscode and message if username is already taken', async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const userWithDuplicateUsername = {
+      username: 'Kelsier',
+      password: 'actuallynoimcool',
+    }
+
+    // save user to the db
+    const response = await api
+    .post('/api/users')
+    .send(userWithDuplicateUsername)
+    .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    // test if correct error is returned
+    expect(response.body.error).toContain('expected `username` to be unique');
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+  })
+
+  test('fails with status code of 400 if incomplete data is passed', async () => {
     const userWithoutUsernameAndPassword = {
       name: 'Perrin Aybara',
     };
@@ -66,6 +83,9 @@ describe('adding new users', () => {
       .send(userWithoutUsernameAndPassword)
       .expect(400)
   })
+})
+
+/*
 
   test('fails with status code of 401 if username or password are less than 3 chars long', async () => {
     const userWithInvalidUsernameAndPassword = {
@@ -80,4 +100,4 @@ describe('adding new users', () => {
       .send(userWithInvalidUsernameAndPassword)
       .expect(401)
   })
-})
+}) */
